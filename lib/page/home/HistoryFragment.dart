@@ -10,6 +10,7 @@ class HistoryFragmentState extends State<HistoryFragment>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       children: <Widget>[
         Container(

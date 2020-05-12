@@ -38,6 +38,7 @@ class IndexFragmentState extends State<IndexFragment> with AutomaticKeepAliveCli
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Column(
         children: <Widget>[
