@@ -26,42 +26,22 @@ class HistoryHeaderState extends State<HistoryHeader> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                child: IconButton(
-                    icon: Icon(Icons.chevron_left),
-                    onPressed: () => _lastOrNextMonth(true)),
-              ),
-              flex: 1,
-            ),
-            Expanded(
-              child: Container(
-                child: Text("$_year年${_month < 10 ? "0$_month" : _month}月"),
-                alignment: Alignment.center,
-              ),
-              flex: 1,
-            ),
-            Expanded(
-              child: Container(
-                child: IconButton(
-                    icon: Icon(Icons.chevron_right),
-                    onPressed: () => _lastOrNextMonth(false)),
-              ),
-              flex: 1,
-            ),
-          ],
-        ),
+        _buildDateController(),
         _buildWeekDayItem(),
         Expanded(
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 7,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            transitionBuilder: (Widget child, Animation<double> animation) =>
+                ScaleTransition(child: child, scale: animation),
+            child: GridView.builder(
+              key: ValueKey<List<Date>>(_date),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 7,
+              ),
+              itemBuilder: (context, index) => DateItem(_date[index]),
+              itemCount: _date.length,
+              padding: EdgeInsets.only(top: 0),
             ),
-            itemBuilder: (context, index) => _buildDateItem(_date[index]),
-            itemCount: _date.length,
-            padding: EdgeInsets.only(top: 0),
           ),
           flex: 1,
         ),
@@ -69,56 +49,48 @@ class HistoryHeaderState extends State<HistoryHeader> {
     );
   }
 
-  Widget _buildDateItem(Date date) {
-    return DateItem(date);
-  }
-
-  Widget _buildWeekDayItem() {
+  Widget _buildDateController() {
     return Row(
       children: <Widget>[
         Expanded(
-            child: Container(
-              child: Text("日"),
-              alignment: Alignment.center,
-            ),
-            flex: 1),
+          child: Container(
+            child: IconButton(
+                icon: Icon(Icons.chevron_left),
+                onPressed: () => _lastOrNextMonth(true)),
+          ),
+          flex: 1,
+        ),
         Expanded(
-            child: Container(
-              child: Text("一"),
-              alignment: Alignment.center,
-            ),
-            flex: 1),
+          child: Container(
+            child: Text("$_year年${_month < 10 ? "0$_month" : _month}月"),
+            alignment: Alignment.center,
+          ),
+          flex: 1,
+        ),
         Expanded(
-            child: Container(
-              child: Text("二"),
-              alignment: Alignment.center,
-            ),
-            flex: 1),
-        Expanded(
-            child: Container(
-              child: Text("三"),
-              alignment: Alignment.center,
-            ),
-            flex: 1),
-        Expanded(
-            child: Container(
-              child: Text("四"),
-              alignment: Alignment.center,
-            ),
-            flex: 1),
-        Expanded(
-            child: Container(
-              child: Text("五"),
-              alignment: Alignment.center,
-            ),
-            flex: 1),
-        Expanded(
-            child: Container(
-              child: Text("六"),
-              alignment: Alignment.center,
-            ),
-            flex: 1),
+          child: Container(
+            child: IconButton(
+                icon: Icon(Icons.chevron_right),
+                onPressed: () => _lastOrNextMonth(false)),
+          ),
+          flex: 1,
+        ),
       ],
+    );
+  }
+
+  Widget _buildWeekDayItem() {
+    final week = ["日", "一", "二", "三", "四", "五", "六"];
+    return Row(
+      children: week.map(
+              (str) => Expanded(
+                child: Container(
+                  child: Text(str),
+                  alignment: Alignment.center,
+                ),
+                flex: 1
+              )
+          ).toList()
     );
   }
 
