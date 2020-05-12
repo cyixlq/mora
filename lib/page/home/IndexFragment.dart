@@ -8,7 +8,7 @@ class IndexFragment extends StatefulWidget {
   State<StatefulWidget> createState() => IndexFragmentState();
 }
 
-class IndexFragmentState extends State<IndexFragment> {
+class IndexFragmentState extends State<IndexFragment> with AutomaticKeepAliveClientMixin {
   final articles = <Article>[
     Article("撸管的危害", "众所周知，撸管对身体是有一定危害的，适当撸管能放松身体，但是过度撸管...", "D教授"),
     Article("年少不知精珍贵，老来望x空流泪", "大肆的撸管手淫将造成精子的产出与输出的不平衡...", "E教授"),
@@ -72,4 +72,7 @@ class IndexFragmentState extends State<IndexFragment> {
     return ArticleCard(
         title: item.title, content: item.content, author: item.author);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class IndexHeader extends StatefulWidget {
   @override
@@ -8,7 +9,6 @@ class IndexHeader extends StatefulWidget {
 
 class IndexHeaderState extends State<IndexHeader> {
 
-  SnackBar _snackBar;
   var _punchInCount = 0;
 
   @override
@@ -69,12 +69,11 @@ class IndexHeaderState extends State<IndexHeader> {
   }
 
   void _punchIn() {
-    if (_snackBar == null) {
-      _snackBar = SnackBar(
-        content: Text("打卡成功！加油，你能行的！"),
-      );
-    }
-    Scaffold.of(context).showSnackBar(_snackBar);
+    Fluttertoast.showToast(
+        msg: "打卡成功！加油，你能行的！",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER
+    );
     setState(() {
       _punchInCount++;
     });
