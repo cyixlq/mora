@@ -1,14 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:mora/model/bean/Article.dart';
 
 class ArticleCard extends StatelessWidget {
 
-  var title = "";
-  var content = "";
-  var author = "";
-  int timeStamp;
+  final Article article;
 
-  ArticleCard({Key key, this.title, this.content, this.timeStamp, this.author});
+  ArticleCard(this.article, {Key key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +18,8 @@ class ArticleCard extends StatelessWidget {
           children: <Widget>[
             Container(
               child: Text(
-                title,
+                article.title,
                 style: TextStyle(
-                  color: Colors.blue,
                   fontSize: 16
                 ),
               ),
@@ -31,9 +28,9 @@ class ArticleCard extends StatelessWidget {
             ),
             Container(
               child: Text(
-                content,
+                article.content,
                 style: TextStyle(
-                  color: Colors.lightBlue,
+                  color: Colors.grey,
                   fontSize: 14
                 ),
               ),
@@ -42,9 +39,9 @@ class ArticleCard extends StatelessWidget {
             ),
             Container(
               child: Text(
-                "——$author",
+                "—— ${article.author}",
                 style: TextStyle(
-                  color: Colors.indigoAccent,
+                  color: Color.fromARGB(255, 204, 204, 204),
                   fontSize: 12
                 ),
               ),

@@ -9,66 +9,10 @@ class IndexHeader extends StatefulWidget {
 class IndexHeaderState extends State<IndexHeader> {
   var _punchInCount = 0;
 
-  /*@override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Image.asset(
-          "static/images/bg_index_header.jpg",
-          fit: BoxFit.fitWidth,
-        ),
-        Column(
-          children: <Widget>[
-            Container(
-              child: Text(
-                  "今天你打卡了吗？",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20
-                  )
-              ),
-              alignment: Alignment.center,
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10, bottom: 10),
-            ),
-            Divider(
-              height: 1,
-              color: Colors.white,
-            ),
-            Container(
-              child: Text(
-                  "您已经连续打卡$_punchInCount天",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17
-                  )
-              ),
-              alignment: Alignment.center,
-              padding: EdgeInsets.only(top: 20),
-            ),
-          ],
-        ),
-        Positioned(
-          child: RaisedButton.icon(
-            textColor: Colors.white,
-            label: Text("打卡"),
-            icon: Icon(Icons.add),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(28)
-            ),
-            onPressed: _punchIn,
-            color: Colors.blue,
-            padding: EdgeInsets.only(left: 45, right: 45),
-          ),
-          bottom: 15,
-        ),
-      ],
-      alignment: Alignment.topCenter,
-    );
-  }*/
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-        expandedHeight: 200,
+        expandedHeight: 130,
         title: Text("首页"),
         elevation: 2,
         pinned: true,
@@ -82,7 +26,7 @@ class IndexHeaderState extends State<IndexHeader> {
           title: Text(
             "您已连续打卡$_punchInCount天",
             style: TextStyle(
-              fontSize: 16
+              fontSize: 14
             ),
           ),
           centerTitle: true,
