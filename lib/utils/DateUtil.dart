@@ -37,4 +37,16 @@ class DateUtil {
     final result = date.weekday;
     return result == 7 ? 0 : result;
   }
+
+  // 获取某一天0点整的时间戳
+  static int getDayStartTimeStamp(int year, int month, int day) {
+    final dateTime = DateTime(year, month, day);
+    return dateTime.millisecondsSinceEpoch;
+  }
+
+  // 获取某一天0点整的DateTime
+  static DateTime getDayStartTime(int year, int month, int day) {
+    final dateTime = DateTime(year, month, day);
+    return dateTime;
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mora/model/DataBaseProvider.dart';
+import 'package:mora/utils/DateUtil.dart';
 
 class IndexHeader extends StatefulWidget {
   @override
@@ -8,6 +10,26 @@ class IndexHeader extends StatefulWidget {
 
 class IndexHeaderState extends State<IndexHeader> {
   var _punchInCount = 0;
+  bool _isPunchIn = false; // 今天是否已经打卡
+  DataBaseProvider _provider;
+
+  @override
+  void initState() {
+    super.initState();
+    _provider = DataBaseProvider();
+    _provider.getLastPunchIn().then((value) {
+      if (value != null) {
+        final DateTime nowTime = DateTime.now();
+        final DateTime startTime = DateUtil.getDayStartTime(nowTime.year, nowTime.month, nowTime.day);
+        _isPunchIn = DateTime.fromMicrosecondsSinceEpoch(value.time).isAfter(startTime);
+        _punchInCount = value.count;
+      } else {
+        _isPunchIn = false;
+        _punchInCount = 0;
+      }
+    });
+    _provider.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +40,7 @@ class IndexHeaderState extends State<IndexHeader> {
         pinned: true,
         backgroundColor: Colors.blue,
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.assignment_turned_in), onPressed: _punchIn),
+          IconButton(icon: Icon(Icons.assignment_turned_in), onPressed: _punchIn, color: _isPunchIn ? Colors.blue : Colors.white,),
           IconButton(icon: Icon(Icons.help), onPressed: _showHelp)
         ],
         flexibleSpace: FlexibleSpaceBar(
