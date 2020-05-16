@@ -18,15 +18,20 @@ class IndexHeaderState extends State<IndexHeader> {
     super.initState();
     _provider = DataBaseProvider();
     _provider.getLastPunchIn().then((value) {
+      var isPunchIn = false;
+      var count = 0;
       if (value != null) {
         final DateTime nowTime = DateTime.now();
         final DateTime startTime = DateUtil.getDayStartTime(nowTime.year, nowTime.month, nowTime.day);
-        _isPunchIn = DateTime.fromMicrosecondsSinceEpoch(value.time).isAfter(startTime);
-        _punchInCount = value.count;
-      } else {
-        _isPunchIn = false;
-        _punchInCount = 0;
+        isPunchIn = DateTime.fromMicrosecondsSinceEpoch(value.time).isAfter(startTime);
+        count = value.count;
       }
+      setState(() {
+        _isPunchIn = isPunchIn;
+        _punchInCount = count;
+      });
+    }).catchError((error) {
+      Fluttertoast.showToast(msg: "${error.toString()}");
     });
     _provider.close();
   }
