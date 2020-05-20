@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mora/model/DataBaseProvider.dart';
 import 'package:mora/model/bean/Date.dart';
 import 'package:mora/page/home/widget/DateItem.dart';
 import 'package:mora/utils/DateUtil.dart';
@@ -13,13 +14,29 @@ class HistoryHeaderState extends State<HistoryHeader> {
   int _year;
   int _month;
   List<Date> _date;
+  DataBaseProvider _provider;
+  Map<String, bool> _punchInMap;
 
   @override
   void initState() {
     super.initState();
+    _provider = DataBaseProvider();
     _year = _dateTime.year;
     _month = _dateTime.month;
     _date = DateUtil.getMonthDays(_year, _month);
+    _punchInMap = Map();
+  }
+
+  void _getDateMap() {
+    _provider.getDateList(_year, _month).then((value) {
+      final tempMap = Map<String, bool>();
+      value.forEach((element) {
+        tempMap["${element.year}${element.month}${element.day}"] = true;
+      });
+      setState(() {
+        _punchInMap = tempMap;
+      });
+    }).whenComplete(() => _provider.close());
   }
 
   @override
@@ -82,16 +99,14 @@ class HistoryHeaderState extends State<HistoryHeader> {
   Widget _buildWeekDayItem() {
     final week = ["日", "一", "二", "三", "四", "五", "六"];
     return Row(
-      children: week.map(
-              (str) => Expanded(
+        children: week
+            .map((str) => Expanded(
                 child: Container(
                   child: Text(str),
                   alignment: Alignment.center,
                 ),
-                flex: 1
-              )
-          ).toList()
-    );
+                flex: 1))
+            .toList());
   }
 
   // 前移一个月或者后移一个月 isLast是否是前移一个月
